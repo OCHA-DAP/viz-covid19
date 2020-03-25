@@ -102,7 +102,7 @@ var timeseriesChart;
 function createTimeSeries(array) {
 	timeseriesChart = c3.generate({
     padding: {
-      top: 15,
+      top: 10,
       left: 30,
       right: 20
     },
@@ -329,7 +329,7 @@ $( document ).ready(function() {
     width = viewportWidth;
     height = viewportHeight;
     var mapScale = width/5.5;
-    var mapCenter = [75, 0];
+    var mapCenter = [75, 8];
 
     var max = d3.max(cumulativeData, function(d) { return +d['confirmed cases']; } );
     // var step = max/3;
