@@ -73,7 +73,9 @@ function initTimeseries(data) {
 
   var dateArray = ['x'];
   groupByDate.forEach(function(d) {
-  	dateArray.push(new Date(d.key));
+    var date = new Date(d.key);
+    var utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  	dateArray.push(utcDate);
   });
 
   var timeseriesArray = [];
