@@ -222,7 +222,7 @@ $( document ).ready(function() {
   var numFormat = d3.format(",");
 
   var viewportWidth = window.innerWidth;
-  var viewportHeight = $('main').outerHeight() - $('header').outerHeight();//window.innerHeight - $('header').outerHeight();
+  var viewportHeight = $('main').outerHeight() - $('header').outerHeight();
   var tooltip = d3.select(".tooltip");
 
   function getData() {
@@ -296,40 +296,41 @@ $( document ).ready(function() {
 
     var cases = d3.select('.legend-inner').append('svg')
       .attr('width', 200)
-      .attr('height', 80);
+      .attr('height', 100);
 
      cases.append('text')
       .attr('class', 'label')
       .attr('transform', 'translate(0,8)')
-      .text('Number of confirmed cases');
+      .text('Number of confirmed cases')
+      .call(wrap, 100);
 
     cases.append('circle')
       .attr('class', 'count-marker')
       .attr('r', 2)
-      .attr('transform', 'translate(10,38)');
+      .attr('transform', 'translate(10,45)');
 
     cases.append('text')
       .attr('class', 'label')
-      .attr('transform', 'translate(7,78)')
+      .attr('transform', 'translate(7,82)')
       .text('1');
 
     cases.append("circle")
       .attr('class', 'count-marker')
       .attr('r', 15)
-      .attr("transform", "translate(50,38)");
+      .attr("transform", "translate(50,45)");
 
     cases.append('text')
       .attr('class', 'label')
-      .attr('transform', 'translate(42,78)')
+      .attr('transform', 'translate(42,82)')
       .text(max);
   }
 
   var width, height, zoom, g, projection, markerScale;
   function drawMap(){
     width = viewportWidth;
-    height = viewportHeight;
+    height = (isMobile) ? viewportHeight - 50 : viewportHeight;
     var mapScale = (isMobile) ? width/3.5 : width/5.5;
-    var mapCenter = (isMobile) ? [10, -10] : [75, 8];
+    var mapCenter = (isMobile) ? [10, 0] : [75, 8];
 
     var max = d3.max(cumulativeData, function(d) { return +d['confirmed cases']; } );
     // var step = max/3;

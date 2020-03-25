@@ -1205,7 +1205,7 @@ header {
   color: #888;
   padding: 20px;
   position: absolute;
-  width: 60%; }
+  width: 100%; }
   .description p {
     margin: 0; }
 
@@ -1303,7 +1303,7 @@ header {
     opacity: 0.8;
     position: absolute;
     left: 20px;
-    width: 160px; }
+    width: 110px; }
     #map .map-legend .legend-inner {
       padding: 0 10px 10px; }
     #map .map-legend .label {
