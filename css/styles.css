@@ -1203,15 +1203,22 @@ header {
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0;
   color: #888;
-  padding: 20px;
+  padding: 10px;
   position: absolute;
   width: 100%; }
   .description p {
     margin: 0; }
 
-.global-figures {
-  padding-left: 20px;
-  width: 40%; }
+.toggle {
+  background-color: #FFF;
+  border: 0;
+  bottom: 0;
+  color: #000;
+  display: none;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  width: 60px; }
 
 .panel {
   background-color: #FFF;
@@ -1385,7 +1392,10 @@ header {
     .content .content-right {
       width: 100%; }
   .description {
+    position: relative;
     width: 100%; }
+  .toggle {
+    display: block; }
   .panel .panel-inner {
     padding: 10px; }
   #map .map-legend {
@@ -1397,7 +1407,8 @@ header {
     top: 10px;
     grid-gap: 0; }
     #map .zoom-controls button {
-      border-radius: 0 !important; }
+      border-radius: 0 !important;
+      width: 30px !important; }
       #map .zoom-controls button#zoom_in {
         border-bottom: 1px solid #CCC;
         height: 31px; } }

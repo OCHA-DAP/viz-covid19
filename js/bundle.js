@@ -145,7 +145,6 @@ function createTimeSeries(array) {
 
   //show every other tick for legibility
   var ticks = d3.selectAll(".c3-axis-y .tick text");
-  console.log('ticks', ticks)
   ticks.each(function(_,i){
     if (i%2 !== 0) d3.select(this).remove();
   });
@@ -279,6 +278,23 @@ $( document ).ready(function() {
       resetPanel();
     });
 
+    var descriptionH = $('.description').outerHeight();
+    $('.toggle').css('bottom', descriptionH);
+    $('.toggle').on('click', function() {
+      if ($(this).hasClass('collapse')) {      
+        $(this).html('show');   
+        $(this).removeClass('collapse');
+        $('.description').hide();
+        $('.toggle').css('bottom', 0);
+      }
+      else {     
+        $(this).html('hide');   
+        $(this).addClass('collapse');
+        $('.description').show();
+        $('.toggle').css('bottom', descriptionH);
+      }
+    });
+
     $('.stats-global').html('<h4>Global Figures: ' + numFormat(globalData['confirmed cases']) + ' total confirmed cases, ' + numFormat(globalData['deaths']) + ' total confirmed deaths</h4>');
 
     totalCases = d3.sum(cumulativeData, function(d) { return d['confirmed cases']; });
@@ -335,9 +351,9 @@ $( document ).ready(function() {
   var width, height, zoom, g, projection, markerScale;
   function drawMap(){
     width = viewportWidth;
-    height = (isMobile) ? viewportHeight - 120 : viewportHeight;
+    height = (isMobile) ? viewportHeight * .5 : viewportHeight;
     var mapScale = (isMobile) ? width/3.5 : width/5.5;
-    var mapCenter = (isMobile) ? [10, -22] : [75, 8];
+    var mapCenter = (isMobile) ? [10, 30] : [75, 8];
 
     var max = d3.max(cumulativeData, function(d) { return +d['confirmed cases']; } );
     // var step = max/3;
