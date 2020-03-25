@@ -1127,6 +1127,7 @@ body {
   font-size: 12px;
   line-height: 18px;
   margin: 0;
+  overflow: hidden;
   padding: 0; }
 
 main {
@@ -1205,7 +1206,7 @@ header {
 .panel {
   background-color: #FFF;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   position: absolute;
   right: 0;
   top: 0;
