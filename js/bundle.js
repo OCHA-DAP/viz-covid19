@@ -220,7 +220,7 @@ $( document ).ready(function() {
   var numFormat = d3.format(".2s");
 
   var viewportWidth = window.innerWidth;
-  var viewportHeight = window.innerHeight - $('header').outerHeight();
+  var viewportHeight = $('main').outerHeight() - $('header').outerHeight();//window.innerHeight - $('header').outerHeight();
   var tooltip = d3.select(".tooltip");
 
   function getData() {
@@ -255,7 +255,6 @@ $( document ).ready(function() {
       $('.date').html(date);
       
       //set heights
-      console.log($('header').outerHeight())
       //$('.content').css('margin-top', $('header').outerHeight());
 
       //create vis elements
@@ -274,9 +273,6 @@ $( document ).ready(function() {
       resetPanel();
     });
 
-    // createKeyFigure('.stats-global', 'Global Confirmed Cases', 'global-cases', numFormat(globalData['confirmed cases']));
-    // createKeyFigure('.stats-global', 'Global Confirmed Deaths', 'global-deaths', numFormat(globalData['deaths']));
-    // createKeyFigure('.stats-global', 'Total Countries', 'global-locations', globalData['n_countries']);
     $('.stats-global').html('<h4>Global Figures: ' + numFormat(globalData['confirmed cases']) + ' total confirmed cases, ' + numFormat(globalData['deaths']) + ' total confirmed deaths</h4>');
 
     totalCases = d3.sum(cumulativeData, function(d) { return d['confirmed cases']; });

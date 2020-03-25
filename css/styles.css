@@ -1130,6 +1130,7 @@ body {
   padding: 0; }
 
 main {
+  height: 690px;
   opacity: 0;
   transition: 0.5s all ease; }
 
