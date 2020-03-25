@@ -1332,11 +1332,12 @@ header {
   color: #000;
   font-size: 14px;
   line-height: 18px;
-  height: 100px;
+  height: 80px;
   opacity: 0;
   padding: 10px;
   pointer-events: none;
   position: absolute;
+  top: 0;
   transition: 0.3s opacity ease;
   width: 130px;
   z-index: 100; }

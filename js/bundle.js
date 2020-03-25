@@ -456,7 +456,7 @@ $( document ).ready(function() {
     var deaths = (country[0] != undefined) ? country[0]['deaths'] : -1;
 
     var w = $('.tooltip').outerWidth();
-    var h = $('.tooltip-inner').outerHeight() + 20;
+    var h = ($('.tooltip-inner').outerHeight() <= 0) ? 80 : $('.tooltip-inner').outerHeight() + 20;
     tooltip.select('div').html("<label class='h3 label-header'>" + country_name + "</label>Cases: "+ cases +"<br/>Deaths: "+ deaths +"<br/>");
     tooltip
       .style('height', h + 'px')
