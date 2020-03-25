@@ -1307,6 +1307,8 @@ header {
     #map .map-legend .label {
       fill: #000;
       font-size: 12px; }
+    #map .map-legend h3 {
+      font-size: 12px; }
 
 .country-label {
   fill: #000;
