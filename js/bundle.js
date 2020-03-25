@@ -142,6 +142,13 @@ function createTimeSeries(array) {
 		tooltip: { grouped: false },
     transition: { duration: 100 }
 	});
+
+  //show every other tick for legibility
+  var ticks = d3.selectAll(".c3-axis-y .tick text");
+  console.log('ticks', ticks)
+  ticks.each(function(_,i){
+    if (i%2 !== 0) d3.select(this).remove();
+  });
 }
 function hxlProxyToJSON(input){
     var output = [];

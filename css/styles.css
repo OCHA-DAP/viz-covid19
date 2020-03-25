@@ -1394,4 +1394,10 @@ header {
   #map .zoom-controls {
     left: auto;
     right: 10px;
-    top: 10px; } }
+    top: 10px;
+    grid-gap: 0; }
+    #map .zoom-controls button {
+      border-radius: 0 !important; }
+      #map .zoom-controls button#zoom_in {
+        border-bottom: 1px solid #CCC;
+        height: 31px; } }
