@@ -328,7 +328,7 @@ $( document ).ready(function() {
   var width, height, zoom, g, projection, markerScale;
   function drawMap(){
     width = viewportWidth;
-    height = (isMobile) ? viewportHeight - 50 : viewportHeight;
+    height = (isMobile) ? viewportHeight - 70 : viewportHeight;
     var mapScale = (isMobile) ? width/3.5 : width/5.5;
     var mapCenter = (isMobile) ? [10, 0] : [75, 8];
 

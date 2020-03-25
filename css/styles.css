@@ -1386,4 +1386,10 @@ header {
   .description {
     width: 100%; }
   .panel .panel-inner {
-    padding: 10px; } }
+    padding: 10px; }
+  #map .map-legend {
+    left: 10px;
+    top: 10px; }
+  #map .zoom-controls {
+    left: 10px;
+    top: 160px; } }
