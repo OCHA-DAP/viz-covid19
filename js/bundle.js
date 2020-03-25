@@ -213,8 +213,8 @@ function wrap(text, width) {
 $( document ).ready(function() {
   var isMobile = $(window).width()<600? true : false;
   var geomPath = 'data/worldmap.json';
-  var timeseriesPath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShO-ufDTcYrZq_4PlWUTJE_KmB8eg07kIwjLLYjguteCwgU4rD2jXsDvYsuCxIPNP7lquqK0x7uyfM/pub?gid=2070563594&single=true&output=csv';
-  var cumulativePath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShO-ufDTcYrZq_4PlWUTJE_KmB8eg07kIwjLLYjguteCwgU4rD2jXsDvYsuCxIPNP7lquqK0x7uyfM/pub?gid=1729792256&single=true&output=csv';
+  var timeseriesPath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS23DBKc8c39Aq55zekL0GCu4I6IVnK4axkd05N6jUBmeJe9wA69s3CmMUiIvAmPdGtZPBd-cLS9YwS/pub?gid=1253093254&single=true&output=csv';
+  var cumulativePath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS23DBKc8c39Aq55zekL0GCu4I6IVnK4axkd05N6jUBmeJe9wA69s3CmMUiIvAmPdGtZPBd-cLS9YwS/pub?gid=195339920&single=true&output=csv';
   var geomData, geomFilteredData, globalData, cumulativeData, timeseriesData, date, totalCases, totalDeaths = '';
   var countryCodeList = [];
   var numFormat = d3.format(".2s");
@@ -253,9 +253,6 @@ $( document ).ready(function() {
       var d = new Date(cumulativeData[0].last_updated);
       date = getMonth(d.getMonth()) + ' ' + d.getUTCDate() + ', ' + d.getFullYear();
       $('.date').html(date);
-      
-      //set heights
-      //$('.content').css('margin-top', $('header').outerHeight());
 
       //create vis elements
       initPanel();
@@ -478,17 +475,17 @@ $( document ).ready(function() {
         .style('font-size', function(d) { return 12/transform.k+'px'; });
 
       //update map markers
-      // mapsvg.selectAll('circle').each(function(m){
-      //   var marker = d3.select(this);
-      //   cumulativeData.forEach(function(d){
-      //     if (m.properties.ISO_A3 == d['Country Code']) {
-          
-      //       marker.transition().duration(500).attr('r', function (d) { 
-      //         return markerScale(d['confirmed cases'])/currentZoom; 
-      //       });
-      //     }
-      //   });
-      // });
+      mapsvg.selectAll('circle').each(function(m){
+        var marker = d3.select(this);
+        cumulativeData.forEach(function(d){
+          if (m.properties.ISO_A3 == d['Country Code']) {
+            var r = markerScale(d['confirmed cases']);
+            marker.transition().duration(500).attr('r', function (d) { 
+              return (r/currentZoom);
+            });
+          }
+        });
+      });
     }
   }
 
