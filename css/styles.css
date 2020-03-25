@@ -1127,7 +1127,7 @@ body {
   font-size: 12px;
   line-height: 18px;
   margin: 0;
-  overflow: hidden;
+  oveflow: hidden;
   padding: 0; }
 
 main {
@@ -1189,6 +1189,16 @@ header {
   header .date {
     padding: 0 0 0 10px; }
 
+.content {
+  display: flex;
+  flex-flow: row;
+  position: relative; }
+  .content .content-left {
+    position: relative;
+    width: 60%; }
+  .content .content-right {
+    width: 40%; }
+
 .description {
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0;
@@ -1205,12 +1215,7 @@ header {
 
 .panel {
   background-color: #FFF;
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 40%; }
+  z-index: 2; }
   .panel .panel-inner {
     padding: 20px; }
 
@@ -1252,9 +1257,6 @@ header {
 .date {
   color: #888;
   padding-bottom: 20px; }
-
-.content {
-  position: relative; }
 
 .logos {
   margin-left: auto; }
@@ -1362,3 +1364,26 @@ header {
   font-size: 14px;
   line-height: 21px;
   font-weight: normal; }
+
+@media only screen and (max-width: 767px) {
+  body {
+    overflow: auto; }
+  h1 {
+    line-height: 18px;
+    padding-left: 0; }
+  header {
+    align-items: flex-start;
+    flex-flow: column;
+    margin-top: 0;
+    padding: 10px; }
+    header .date {
+      padding: 5px 0 0; }
+  .content {
+    flex-flow: column; }
+    .content .content-left,
+    .content .content-right {
+      width: 100%; }
+  .description {
+    width: 100%; }
+  .panel .panel-inner {
+    padding: 10px; } }

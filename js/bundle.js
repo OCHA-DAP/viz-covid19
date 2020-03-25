@@ -213,7 +213,7 @@ function wrap(text, width) {
   });
 }
 $( document ).ready(function() {
-  var isMobile = $(window).width()<600? true : false;
+  var isMobile = window.innerWidth<768? true : false;
   var geomPath = 'data/worldmap.json';
   var timeseriesPath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS23DBKc8c39Aq55zekL0GCu4I6IVnK4axkd05N6jUBmeJe9wA69s3CmMUiIvAmPdGtZPBd-cLS9YwS/pub?gid=1253093254&single=true&output=csv';
   var cumulativePath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS23DBKc8c39Aq55zekL0GCu4I6IVnK4axkd05N6jUBmeJe9wA69s3CmMUiIvAmPdGtZPBd-cLS9YwS/pub?gid=195339920&single=true&output=csv';
@@ -328,8 +328,8 @@ $( document ).ready(function() {
   function drawMap(){
     width = viewportWidth;
     height = viewportHeight;
-    var mapScale = width/5.5;
-    var mapCenter = [75, 8];
+    var mapScale = (isMobile) ? width/3.5 : width/5.5;
+    var mapCenter = (isMobile) ? [10, -10] : [75, 8];
 
     var max = d3.max(cumulativeData, function(d) { return +d['confirmed cases']; } );
     // var step = max/3;
@@ -412,7 +412,7 @@ $( document ).ready(function() {
         .text(function(d) { return d.properties.NAME_LONG; })
         .call(wrap, 100);
 
-     //create tweet markers
+    //create count markers
     var countMarker = g.append("g")
       .attr("class", "count-layer")
       .selectAll(".count-marker")
