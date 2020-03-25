@@ -102,6 +102,7 @@ function createTimeSeries(array) {
     padding: {
       top: 20,
       left: 25,
+      right: 20
     },
     bindto: '.timeseries-chart',
     title: {
@@ -110,83 +111,36 @@ function createTimeSeries(array) {
 		},
 		data: {
 			x: 'x',
-			columns: array
+			columns: array,
+      type: 'spline'
 		},
-    point: {
-      show: false
+    spline: {
+      interpolation: {
+        type: 'basis'
+      }
     },
+    point: { show: false },
 		axis: {
 			x: {
 				type: 'timeseries',
 				tick: {
-				  format: '%-m/%-d/%y'
+          count: 8,
+				  format: '%-m/%-d/%y',
+          outer: false
 				}
 			},
 			y: {
 				min: 0,
-				padding: { top:0, bottom:0 }
+				padding: { top:0, bottom:0 },
+        tick: { 
+          outer: false
+        }
 			}
 		},
-		tooltip: {
-  		grouped: false
-		},
-    transition: {
-      duration: 100
-    }
+		tooltip: { grouped: false },
+    transition: { duration: 100 }
 	});
 }
-var countryList = [
-    "Afghanistan",
-    "Burkina Faso",
-    "Burundi",
-    "Cameroon",
-    "Central African Republic",
-    "Chad",
-    "Democratic Republic of the Congo",
-    "Ethiopia",
-    "Haiti",
-    "Iraq",
-    "Libya",
-    "Mali",
-    "Myanmar",
-    "Niger",
-    "Nigeria",
-    "occupied Palestinian territory",
-    "Somalia",
-    "South Sudan",
-    "Sudan",
-    "Syria",
-    "Ukraine",
-    "Venezuela (Bolivarian Republic of)",
-    "Yemen"
-];
-
-// var countryList = [
-//     "AFG",
-//     "BFA",
-//     "BDI",
-//     "CMR",
-//     "CAF",
-//     "TCD",
-//     "COD",
-//     "ETH",
-//     "HTI",
-//     "IRQ",
-//     "LBY",
-//     "MLI",
-//     "MMR",
-//     "NER",
-//     "NGA",
-//     "PSE",
-//     "SOM",
-//     "SSD",
-//     "SDN",
-//     "SYR",
-//     "UKR",
-//     "VEN",
-//     "YEM"
-// ];
-
 function hxlProxyToJSON(input){
     var output = [];
     var keys=[]
@@ -524,6 +478,19 @@ $( document ).ready(function() {
 
       mapsvg.selectAll('.country-label')
         .style('font-size', function(d) { return 12/transform.k+'px'; });
+
+      //update map markers
+      // mapsvg.selectAll('circle').each(function(m){
+      //   var marker = d3.select(this);
+      //   cumulativeData.forEach(function(d){
+      //     if (m.properties.ISO_A3 == d['Country Code']) {
+          
+      //       marker.transition().duration(500).attr('r', function (d) { 
+      //         return markerScale(d['confirmed cases'])/currentZoom; 
+      //       });
+      //     }
+      //   });
+      // });
     }
   }
 
