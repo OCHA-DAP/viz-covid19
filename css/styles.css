@@ -1392,5 +1392,6 @@ header {
     left: 10px;
     top: 10px; }
   #map .zoom-controls {
-    left: 10px;
-    top: 160px; } }
+    left: auto;
+    right: 10px;
+    top: 10px; } }
