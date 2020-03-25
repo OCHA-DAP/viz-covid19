@@ -1183,6 +1183,7 @@ header {
   border-bottom: 1px solid #CCC;
   display: flex;
   flex-flow: row;
+  margin-top: 20px;
   width: 100%; }
   header .date {
     padding: 0 0 0 10px; }
