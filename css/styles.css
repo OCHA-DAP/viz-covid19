@@ -1391,6 +1391,7 @@ header {
     .content .content-right {
       width: 100%; }
   .description {
+    color: #000;
     position: relative;
     width: 100%; }
   .toggle {

@@ -226,7 +226,7 @@ $( document ).ready(function() {
   var geomData, geomFilteredData, globalData, cumulativeData, timeseriesData, date, totalCases, totalDeaths = '';
   var countryCodeList = [];
   var numFormat = d3.format(",");
-
+  
   var viewportWidth = window.innerWidth;
   var viewportHeight = $('main').outerHeight() - $('header').outerHeight();
   var tooltip = d3.select(".tooltip");
@@ -257,9 +257,13 @@ $( document ).ready(function() {
       //filter for priority countries
       geomFilteredData = geomData.features.filter((country) => countryCodeList.includes(country.properties.ISO_A3));
     
+      //get most recent date from timeseries data
+      var lastUpdated = new Date(Math.max.apply(null, timeseriesData.map(function(e) {
+        return new Date(e.Date);
+      })));
+
       //set last updated date
-      var d = new Date(cumulativeData[0].last_updated);
-      date = getMonth(d.getMonth()) + ' ' + d.getUTCDate() + ', ' + d.getFullYear();
+      date = getMonth(lastUpdated.getMonth()) + ' ' + lastUpdated.getUTCDate() + ', ' + lastUpdated.getFullYear();
       $('.date span').html(date);
 
       //create vis elements
