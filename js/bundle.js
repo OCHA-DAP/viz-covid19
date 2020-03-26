@@ -226,7 +226,8 @@ $( document ).ready(function() {
   var geomData, geomFilteredData, globalData, cumulativeData, timeseriesData, date, totalCases, totalDeaths = '';
   var countryCodeList = [];
   var numFormat = d3.format(",");
-  
+
+  var page = window.location.href;
   var viewportWidth = window.innerWidth;
   var viewportHeight = $('main').outerHeight() - $('header').outerHeight();
   var tooltip = d3.select(".tooltip");
@@ -266,6 +267,17 @@ $( document ).ready(function() {
       date = getMonth(lastUpdated.getMonth()) + ' ' + lastUpdated.getUTCDate() + ', ' + lastUpdated.getFullYear();
       $('.date span').html(date);
 
+      //create page link
+      var embed = { text: 'See COVID-19 Pandemic page', link: 'https://data.humdata.org/event/covid-19' };
+      var standalone = { text: 'Open fullscreen', link: 'https://data.humdata.org/visualization/covid19' };
+      if (page.indexOf('visualization') > -1 || page.indexOf('127') > -1) { 
+        $('body').addClass('standalone');
+        createLink(embed);
+      }
+      else {
+        createLink(standalone);
+      }
+
       //create vis elements
       initPanel();
       initMap();
@@ -275,6 +287,10 @@ $( document ).ready(function() {
       $('.loader').hide();
       $('main, footer').css('opacity', 1);
     });
+  }
+
+  function createLink(type) {
+    $('.link').attr('href', type.link).find('span').html(type.text);
   }
 
   function initPanel() {
