@@ -290,7 +290,8 @@ $( document ).ready(function() {
   }
 
   function createLink(type) {
-    $('.link').attr('href', type.link).find('span').html(type.text);
+    $('.link').find('a').attr('href', type.link);
+    $('.link').find('span').html(type.text);
   }
 
   function initPanel() {
