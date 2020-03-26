@@ -1290,14 +1290,13 @@ header {
       width: 30px;
       height: 30px;
       font-size: 18px;
-      display: grid;
       border-radius: 50% !important;
       background: #FFF;
       color: #000;
       border: none;
       user-select: none;
       cursor: pointer;
-      box-sizing: border-box; }
+      text-align: center; }
     #map .zoom-controls button:active {
       background: rgba(255, 255, 255, 0.8); }
     #map .zoom-controls button:focus {

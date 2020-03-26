@@ -282,16 +282,12 @@ $( document ).ready(function() {
     $('.toggle').css('bottom', descriptionH);
     $('.toggle').on('click', function() {
       if ($(this).hasClass('collapse')) {      
-        $(this).html('show');   
-        $(this).removeClass('collapse');
+        $(this).html('show').removeClass('collapse').css('bottom', 0);
         $('.description').hide();
-        $('.toggle').css('bottom', 0);
       }
       else {     
-        $(this).html('hide');   
-        $(this).addClass('collapse');
+        $(this).html('hide').addClass('collapse').css('bottom', descriptionH);
         $('.description').show();
-        $('.toggle').css('bottom', descriptionH);
       }
     });
 
