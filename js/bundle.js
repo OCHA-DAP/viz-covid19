@@ -365,10 +365,10 @@ $( document ).ready(function() {
       .text(max);
   }
 
-  var width, height, zoom, g, projection, markerScale;
+  var zoom, g, mapsvg, markerScale;
   function drawMap(){
-    width = viewportWidth;
-    height = (isMobile) ? viewportHeight * .5 : viewportHeight;
+    var width = viewportWidth;
+    var height = (isMobile) ? viewportHeight * .5 : viewportHeight;
     var mapScale = (isMobile) ? width/3.5 : width/5.5;
     var mapCenter = (isMobile) ? [10, 30] : [75, 8];
 
@@ -378,7 +378,7 @@ $( document ).ready(function() {
     //   .domain([0, step, step*2, step*3])
     //   .range(d3.schemeReds[4]);
 
-    projection = d3.geoMercator()
+    var projection = d3.geoMercator()
       .center(mapCenter)
       .scale(mapScale)
       .translate([width / 2, height / 2]);
@@ -387,7 +387,7 @@ $( document ).ready(function() {
       .scaleExtent([1, 8])
       .on("zoom", zoomed);
 
-    path = d3.geoPath().projection(projection);
+    var path = d3.geoPath().projection(projection);
 
     mapsvg = d3.select('#map').append('svg')
       .attr("width", width)
