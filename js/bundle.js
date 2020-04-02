@@ -140,7 +140,7 @@ function createTimeSeries(array) {
 			}
 		},
 		tooltip: { grouped: false },
-    transition: { duration: 300 }
+    transition: { duration: 100 }
 	});
 
   //show every other tick for legibility
@@ -264,7 +264,7 @@ $( document ).ready(function() {
       })));
 
       //set last updated date
-      date = getMonth(lastUpdated.getMonth()) + ' ' + lastUpdated.getUTCDate() + ', ' + lastUpdated.getFullYear();
+      date = getMonth(lastUpdated.getUTCMonth()) + ' ' + lastUpdated.getUTCDate() + ', ' + lastUpdated.getFullYear();
       $('.date span').html(date);
 
       //create page link
