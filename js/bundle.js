@@ -289,7 +289,7 @@ $( document ).ready(function() {
 
   var page = window.location.href;
   var viewportWidth = window.innerWidth;
-  var viewportHeight = 580;//$('main').outerHeight() - $('header').outerHeight();
+  var viewportHeight = $('main').outerHeight() - $('header').outerHeight();
   var tooltip = d3.select(".tooltip");
 
   function getData() {
@@ -393,8 +393,11 @@ $( document ).ready(function() {
   var zoom, g, mapsvg, markerScale;
 
   function initMap(){
-    drawMap();
-    createMapLegend();
+    setTimeout(function() {
+      viewportHeight = $('.panel').height();
+      drawMap();
+      createMapLegend();
+    }, 100);
   }
 
   function createMapLegend() {
