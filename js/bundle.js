@@ -59,7 +59,12 @@ function createBarChart(name, countries, values) {
 
 
 function initTimeseries(data) {
-	//group the data by country
+  var timeseriesArray = formatTimeseriesData(data);
+  createTimeSeries(timeseriesArray);
+}
+
+function formatTimeseriesData(data) {
+  //group the data by country
   var groupByCountry = d3.nest()
     .key(function(d){ return d['Country']; })
     .key(function(d) { return d['Date']; })
@@ -75,27 +80,27 @@ function initTimeseries(data) {
   groupByDate.forEach(function(d) {
     var date = new Date(d.key);
     var utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-  	dateArray.push(utcDate);
+    dateArray.push(utcDate);
   });
 
   var timeseriesArray = [];
   timeseriesArray.push(dateArray);
 
   groupByCountry.forEach(function(country, index) {
-  	var arr = [country.key];
-  	var val = 0;
-		groupByDate.forEach(function(d) {
-			country.values.forEach(function(e) {
-				if (d.key == e.key) {
-					val = e.values[0]['confirmed cases'];
-				}
-			});
-			arr.push(val);
-		});
-  	timeseriesArray.push(arr);
+    var arr = [country.key];
+    var val = 0;
+    groupByDate.forEach(function(d) {
+      country.values.forEach(function(e) {
+        if (d.key == e.key) {
+          val = e.values[0]['confirmed cases'];
+        }
+      });
+      arr.push(val);
+    });
+    timeseriesArray.push(arr);
   });
 
-  createTimeSeries(timeseriesArray)
+  return timeseriesArray;
 }
 
 var timeseriesChart;
@@ -104,7 +109,7 @@ function createTimeSeries(array) {
     padding: {
       top: 10,
       left: 30,
-      right: 20
+      right: 16
     },
     bindto: '.timeseries-chart',
     title: {
@@ -116,6 +121,9 @@ function createTimeSeries(array) {
 			columns: array,
       type: 'spline'
 		},
+    color: {
+        pattern: ['#1ebfb3', '#f2645a', '#007ce1', '#9c27b0', '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+    },
     spline: {
       interpolation: {
         type: 'basis'
@@ -139,16 +147,67 @@ function createTimeSeries(array) {
         }
 			}
 		},
+    legend: {
+      show: false,
+      position: 'inset',
+      inset: {
+          anchor: 'top-left',
+          x: 10,
+          y: 0,
+          step: 8
+      }
+    },
 		tooltip: { grouped: false },
-    transition: { duration: 100 }
+    transition: { duration: 300 }
 	});
 
-  //show every other tick for legibility
-  var ticks = d3.selectAll(".c3-axis-y .tick text");
-  ticks.each(function(_,i){
-    if (i%2 !== 0) d3.select(this).remove();
+  createTimeseriesLegend();
+}
+
+
+function createTimeseriesLegend() {
+  var names = [];
+  timeseriesChart.data.shown().forEach(function(d) {
+    names.push(d.id)
+  });
+
+  //custom legend
+  d3.select('.timeseries-chart').insert('div').attr('class', 'timeseries-legend').selectAll('div')
+    .data(names)
+    .enter().append('div')
+    .attr('data-id', function(id) {
+      return id;
+    })
+    .html(function(id) {
+      return '<span></span>'+id;
+    })
+    .each(function(id) {
+      d3.select(this).select('span').style('background-color', timeseriesChart.color(id));
+    })
+    .on('mouseover', function(id) {
+      timeseriesChart.focus(id);
+    })
+    .on('mouseout', function(id) {
+      timeseriesChart.revert();
+    });
+}
+
+function updateTimeseries(data, selected) {
+  var updatedData = (selected != undefined) ? data.filter((country) => selected.includes(country['Country Code'])) : data;
+  var timeseriesArray = formatTimeseriesData(updatedData);
+
+  //load new data
+  timeseriesChart.load({
+    columns: timeseriesArray,
+    unload: true,
+    done: function() {
+      $('.timeseries-legend').remove();
+      createTimeseriesLegend();
+    }
   });
 }
+
+
 function hxlProxyToJSON(input){
     var output = [];
     var keys=[]
@@ -225,6 +284,7 @@ $( document ).ready(function() {
   var cumulativePath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS23DBKc8c39Aq55zekL0GCu4I6IVnK4axkd05N6jUBmeJe9wA69s3CmMUiIvAmPdGtZPBd-cLS9YwS/pub?gid=195339920&single=true&output=csv';
   var geomData, geomFilteredData, globalData, cumulativeData, timeseriesData, date, totalCases, totalDeaths = '';
   var countryCodeList = [];
+  var selectedCountries = [];
   var numFormat = d3.format(",");
 
   var page = window.location.href;
@@ -295,7 +355,7 @@ $( document ).ready(function() {
   }
 
   function initPanel() {
-    $('.panel').find('h2 a').on('click', function() {
+    $('#reset').on('click', function() {
       resetPanel();
     });
 
@@ -326,6 +386,12 @@ $( document ).ready(function() {
     return targetDiv.append("<div class='key-figure'><div class='inner'><h3>"+ title +"</h3><div class='num " + className + "'>"+ value +"</div><p class='date small'><span>"+ date +"</span></p></div></div></div>");
   }
 
+
+  /*********************/
+  /*** MAP FUNCTIONS ***/
+  /*********************/
+  var zoom, g, mapsvg, markerScale;
+
   function initMap(){
     drawMap();
     createMapLegend();
@@ -336,7 +402,7 @@ $( document ).ready(function() {
 
     var cases = d3.select('.legend-inner').append('svg')
       .attr('width', 200)
-      .attr('height', 100);
+      .attr('height', 80);
 
      cases.append('text')
       .attr('class', 'label')
@@ -347,25 +413,24 @@ $( document ).ready(function() {
     cases.append('circle')
       .attr('class', 'count-marker')
       .attr('r', 2)
-      .attr('transform', 'translate(10,45)');
+      .attr('transform', 'translate(10,43)');
 
     cases.append('text')
       .attr('class', 'label')
-      .attr('transform', 'translate(7,82)')
+      .attr('transform', 'translate(7,75)')
       .text('1');
 
     cases.append("circle")
       .attr('class', 'count-marker')
       .attr('r', 15)
-      .attr("transform", "translate(50,45)");
+      .attr("transform", "translate(50,43)");
 
     cases.append('text')
       .attr('class', 'label')
-      .attr('transform', 'translate(42,82)')
+      .attr('transform', 'translate(42,75)')
       .text(max);
   }
 
-  var zoom, g, mapsvg, markerScale;
   function drawMap(){
     var width = viewportWidth;
     var height = (isMobile) ? viewportHeight * .5 : viewportHeight;
@@ -373,10 +438,6 @@ $( document ).ready(function() {
     var mapCenter = (isMobile) ? [10, 30] : [75, 8];
 
     var max = d3.max(cumulativeData, function(d) { return +d['confirmed cases']; } );
-    // var step = max/3;
-    // var color = d3.scaleQuantize()
-    //   .domain([0, step, step*2, step*3])
-    //   .range(d3.schemeReds[4]);
 
     var projection = d3.geoMercator()
       .center(mapCenter)
@@ -412,35 +473,24 @@ $( document ).ready(function() {
     .enter()
       .append("path")
       .attr("class", "map-regions")
-      // .attr("fill", function(d) { 
-      //   var country = whoFilteredData.filter(country => country.ADM0_NAME == d.properties.NAME_LONG);
-      //   var num = (country[0] != undefined) ? country[0].cum_conf : -1;
-      //   var clr = (num<0) ? '#E8E8E8' : color(num);
-      //   return clr;
-      // })
+      .attr("id", function(d) {
+        return d.properties.ISO_A3;
+      })
       .attr("d", path)
       .on("mouseover", function(d){ 
-        var included = false;
-        countryCodeList.forEach(function(c){
-          if (c==d.properties.ISO_A3) included = true;
-        });
-        if (included){
+        if (isHRP(d.properties.ISO_A3)){
           tooltip.style("opacity", 1); 
         }
       })
       .on("mouseout", function(d) { tooltip.style("opacity", 0); })
       .on("mousemove", function(d) {
-        var included = false;
-        countryCodeList.forEach(function(c){
-          if (c==d.properties.ISO_A3) included = true;
-        });
-        if (included){
+        if (isHRP(d.properties.ISO_A3)){
           createMapTooltip(d.properties['ISO_A3'], d.properties.NAME_LONG);
         }
       })
       .on("click", function(d) {
-        var country = cumulativeData.filter(country => country['Country Code'] == d.properties.ISO_A3);
-        updatePanel(country[0]);
+        if (isHRP(d.properties.ISO_A3))
+          selectCountry(d);
       });
 
     //country labels
@@ -462,6 +512,9 @@ $( document ).ready(function() {
         .append("g")
         .append("circle")
         .attr("class", "marker count-marker")
+        .attr("id", function(d) {
+          return d.properties.ISO_A3;
+        })
         .attr("r", function (d){ 
           var country = cumulativeData.filter(country => country['Country Code'] == d.properties.ISO_A3);
           return markerScale(+country[0]['confirmed cases']); 
@@ -473,8 +526,7 @@ $( document ).ready(function() {
           createMapTooltip(d.properties.ISO_A3, d.properties.NAME_LONG);
         })
         .on("click", function(d) {
-          var country = cumulativeData.filter(country => country['Country Code'] == d.properties.ISO_A3);
-          updatePanel(country[0]);
+          selectCountry(d);
         });
 
     //tooltip
@@ -488,6 +540,35 @@ $( document ).ready(function() {
     d3.select("#zoom_out").on("click", function() {
       zoom.scaleBy(mapsvg.transition().duration(500), 0.5);
     });
+  }
+
+  function isHRP(country_code) {
+    var included = false;
+    countryCodeList.forEach(function(c){
+      if (c==country_code) included = true;
+    });
+    return included;
+  }
+
+  function selectCountry(d) {
+    //update marker selection
+    var marker = d3.select('.count-layer').select('#'+d.properties.ISO_A3);
+    if (marker.classed('selected')) {
+      marker.classed('selected', false);
+
+      const index = selectedCountries.indexOf(d.properties.ISO_A3);
+      if (index > -1) {
+        selectedCountries.splice(index, 1);
+      }
+    }
+    else {
+      marker.classed('selected', true);
+      selectedCountries.push(d.properties.ISO_A3);
+    }
+
+    //update panel
+    updatePanel(selectedCountries);
+    updateTimeseries(timeseriesData, selectedCountries);
   }
 
   function createMapTooltip(country_code, country_name){
@@ -531,26 +612,32 @@ $( document ).ready(function() {
       });
     }
   }
+  /*********************/
 
-  function updatePanel(country) {
-    if (country != undefined) {
-      $('.panel').find('h2 span').html(' > ' + country['Country']);
-      $('.key-figure').find('.cases').html(country['confirmed cases']);
-      $('.key-figure').find('.deaths').html(country['deaths']);
-      $('.key-figure').find('.locations').html(country['n_countries']);
-      //timeseriesChart.focus(country['Country']);
-      timeseriesChart.hide();
-      timeseriesChart.show(country['Country'], true);
+
+  function updatePanel(selected) {
+    var updatedData = cumulativeData.filter((country) => selected.includes(country['Country Code']));
+    var cases = d3.sum(updatedData, function(d) { return +d['confirmed cases']; } );
+    var deaths = d3.sum(updatedData, function(d) { return +d['deaths']; } );
+    var locations = updatedData.length;
+
+    if (updatedData.length > 0) {
+      $('.key-figure').find('.cases').html(cases);
+      $('.key-figure').find('.deaths').html(deaths);
+      $('.key-figure').find('.locations').html(locations);
     }
   }
 
   function resetPanel() {
+    selectedCountries = [];
     $('.panel').find('h2 span').html('');
     $('.key-figure').find('.cases').html(totalCases);
     $('.key-figure').find('.deaths').html(totalDeaths);
     $('.key-figure').find('.locations').html(cumulativeData.length);
-    //timeseriesChart.focus();
-    timeseriesChart.show();
+    
+    updateTimeseries(timeseriesData);
+
+    $('.count-marker').removeClass('selected');
   }
 
   function initTracking() {

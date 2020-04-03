@@ -1232,9 +1232,20 @@ header {
 
 .panel {
   background-color: #FFF;
+  position: relative;
   z-index: 2; }
   .panel .panel-inner {
-    padding: 20px; }
+    padding: 10px 20px 20px; }
+
+#reset {
+  background: none;
+  border: 1px solid #CCC;
+  cursor: pointer;
+  height: 22px;
+  position: absolute;
+  right: 30px;
+  top: 20px;
+  z-index: 2; }
 
 .stats {
   display: flex; }
@@ -1293,7 +1304,7 @@ header {
   #map .zoom-controls {
     position: absolute;
     left: 20px;
-    top: 170px;
+    top: 125px;
     display: grid;
     grid-gap: 5px; }
     #map .zoom-controls button {
@@ -1315,13 +1326,13 @@ header {
     background-color: #FFF;
     top: 20px;
     color: #000;
-    height: 140px;
+    height: 98px;
     opacity: 0.8;
     position: absolute;
     left: 20px;
-    width: 110px; }
+    width: 105px; }
     #map .map-legend .legend-inner {
-      padding: 0 10px 10px; }
+      padding: 10px; }
     #map .map-legend .label {
       fill: #000;
       font-size: 12px; }
@@ -1340,6 +1351,8 @@ header {
   fill-opacity: 0.5;
   fill: #F2645A;
   stroke: #F2645A; }
+  .count-marker.selected {
+    stroke: #000; }
 
 .tooltip {
   background-color: #FFF;
@@ -1376,11 +1389,31 @@ header {
 .timeseries-chart {
   margin: 10px 0; }
 
+.timeseries-legend {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid #CCC;
+  left: 38px;
+  max-height: 196px;
+  overflow: scroll;
+  padding: 5px 10px 0 0;
+  position: absolute;
+  top: 30px; }
+  .timeseries-legend > div {
+    cursor: pointer; }
+  .timeseries-legend span {
+    display: inline-block;
+    margin-left: 7px;
+    margin-right: 7px;
+    padding: 5px; }
+
 .c3-title {
   font-family: 'Gotham-Bold', sans-serif;
   font-size: 14px;
   line-height: 21px;
   font-weight: normal; }
+
+.c3-legend-background {
+  stroke: none; }
 
 @media only screen and (max-width: 767px) {
   body {
@@ -1395,6 +1428,9 @@ header {
     padding: 10px; }
     header .date {
       padding: 5px 0 0; }
+    header .link {
+      margin-left: 0;
+      margin-top: 5px; }
   .content {
     flex-flow: column; }
     .content .content-left,
@@ -1408,6 +1444,8 @@ header {
     display: block; }
   .panel .panel-inner {
     padding: 10px; }
+  .num {
+    font-size: 42px; }
   #map .map-legend {
     left: 10px;
     top: 10px; }
