@@ -289,7 +289,7 @@ $( document ).ready(function() {
 
   var page = window.location.href;
   var viewportWidth = window.innerWidth;
-  var viewportHeight = $('main').outerHeight() - $('header').outerHeight();
+  var viewportHeight = 580;//$('main').outerHeight() - $('header').outerHeight();
   var tooltip = d3.select(".tooltip");
 
   function getData() {
