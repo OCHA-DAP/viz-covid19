@@ -300,6 +300,10 @@ $( document ).ready(function() {
     ]).then(function(data){
       //parse data
       geomData = topojson.feature(data[0], data[0].objects.geom);
+      data[2].forEach(function(item) {
+        if (item.Country == 'Occupied Palestinian Territory') item.Country = 'occupied Palestinian territory';
+      });
+
       cumulativeData = data[1];
       timeseriesData = data[2];
 
