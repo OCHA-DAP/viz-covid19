@@ -1213,7 +1213,7 @@ header {
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0px;
   color: #888;
-  padding: 10px 10px 0;
+  padding: 10px 10px 15px;
   position: absolute;
   width: 100%; }
 
@@ -1425,6 +1425,7 @@ header {
       width: 100%; }
   .description {
     color: #000;
+    padding-bottom: 0;
     position: relative;
     width: 100%; }
   .toggle {

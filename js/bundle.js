@@ -369,17 +369,20 @@ $( document ).ready(function() {
       resetViz();
     });
 
-    descriptionText = $('.description').html();
-    var shortDescriptionText = truncateString(descriptionText, 129) + ' <a>show more</a>';
+    if (isMobile) {
+      descriptionText = $('.description').html() + '<a>show less</a>';
+      $('.description').html(descriptionText);
+      var shortDescriptionText = truncateString(descriptionText, 129) + ' <a>show more</a>';
 
-    $('.description').on('click', function() {
-      if ($(this).hasClass('collapse')) {      
-        $(this).html(descriptionText).removeClass('collapse');
-      }
-      else {     
-        $(this).html(shortDescriptionText).addClass('collapse');
-      }
-    });
+      $('.description').on('click', function() {
+        if ($(this).hasClass('collapse')) {      
+          $(this).html(descriptionText).removeClass('collapse');
+        }
+        else {     
+          $(this).html(shortDescriptionText).addClass('collapse');
+        }
+      });
+    }
 
     $('.stats-global').html('<h4>Global Figures: ' + numFormat(globalData['confirmed cases']) + ' total confirmed cases, ' + numFormat(globalData['deaths']) + ' total confirmed deaths</h4>');
 
