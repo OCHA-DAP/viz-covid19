@@ -272,7 +272,7 @@ function wrap(text, width) {
         line.pop();
         tspan.text(line.join(" "));
         line = [word];
-        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", +lineHeight + "em").text(word);
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", + lineHeight + "em").text(word);
       }
     }
   });
@@ -428,7 +428,7 @@ $( document ).ready(function() {
       .attr('width', 95)
       .attr('height', 80);
 
-     cases.append('text')
+    cases.append('text')
       .attr('class', 'label')
       .attr('transform', 'translate(0,8)')
       .text('Number of confirmed cases')
@@ -451,7 +451,7 @@ $( document ).ready(function() {
 
     cases.append('text')
       .attr('class', 'label')
-      .attr('transform', 'translate(42,75)')
+      .attr('transform', 'translate(38,75)')
       .text(max);
   }
 
@@ -518,12 +518,15 @@ $( document ).ready(function() {
       });
 
     //country labels
-    g.selectAll(".country-label")
+    var label = g.selectAll(".country-label")
       .data(geomFilteredData)
       .enter().append("text")
         .attr("class", "country-label")
         .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
-        .attr("dy", "1em")
+        .attr("dy", function() {
+          var dy = (isMobile) ? 0 : '1em';
+          return dy;
+        })
         .text(function(d) { return d.properties.NAME_LONG; })
         .call(wrap, 100);
 
