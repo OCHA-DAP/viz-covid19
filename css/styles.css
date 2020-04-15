@@ -1379,7 +1379,7 @@ header {
 .timeseries-legend {
   background-color: rgba(255, 255, 255, 0.5);
   border: 1px solid #CCC;
-  left: 38px;
+  left: 43px;
   max-height: 196px;
   overflow: scroll;
   padding: 5px 10px 0 0;
@@ -1401,6 +1401,15 @@ header {
 
 .c3-legend-background {
   stroke: none; }
+
+@media only screen and (max-width: 1000px) {
+  .num {
+    font-size: 42px; }
+  #reset {
+    right: 20px;
+    top: 8px; }
+  .timeseries-chart {
+    margin-top: 30px; } }
 
 @media only screen and (max-width: 767px) {
   body {
@@ -1432,10 +1441,9 @@ header {
     display: block; }
   .panel .panel-inner {
     padding: 10px; }
-  .num {
-    font-size: 42px; }
   #reset {
-    right: 10px; }
+    right: 10px;
+    top: 20px; }
   #map .map-legend {
     left: 10px;
     top: 10px; }
@@ -1449,4 +1457,6 @@ header {
       width: 30px !important; }
       #map .zoom-controls button#zoom_in {
         border-bottom: 1px solid #CCC;
-        height: 31px; } }
+        height: 31px; }
+  .timeseries-chart {
+    margin-top: 10px; } }
