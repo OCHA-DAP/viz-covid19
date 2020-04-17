@@ -1239,14 +1239,15 @@ header {
   .stats .key-figure {
     margin-right: 15px;
     padding-bottom: 20px;
-    width: 33%; }
+    width: 40%; }
     .stats .key-figure .inner {
       border-bottom: 1px solid #CCC;
       border-top: 1px solid #CCC; }
       .stats .key-figure .inner h3 {
         height: 32px; }
     .stats .key-figure:last-child {
-      margin-right: 0; }
+      margin-right: 0;
+      width: 20%; }
 
 .num {
   color: #000;
