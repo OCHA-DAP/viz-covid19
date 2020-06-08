@@ -108,7 +108,7 @@ function createTimeSeries(array) {
 	timeseriesChart = c3.generate({
     padding: {
       top: 10,
-      left: 35,
+      left: 30,
       right: 16
     },
     bindto: '.timeseries-chart',
@@ -143,7 +143,8 @@ function createTimeSeries(array) {
 				min: 0,
 				padding: { top:0, bottom:0 },
         tick: { 
-          outer: false
+          outer: false,
+          format: d3.format(".2s")
         }
 			}
 		},
@@ -307,10 +308,6 @@ $( document ).ready(function() {
     ]).then(function(data){
       //parse data
       geomData = topojson.feature(data[0], data[0].objects.geom);
-      data[2].forEach(function(item) {
-        if (item.Country == 'Occupied Palestinian Territory') item.Country = 'occupied Palestinian territory';
-      });
-
       cumulativeData = data[1];
       timeseriesData = data[2];
 
@@ -388,8 +385,8 @@ $( document ).ready(function() {
 
     totalCases = d3.sum(cumulativeData, function(d) { return d['confirmed cases']; });
     totalDeaths = d3.sum(cumulativeData, function(d) { return d['deaths']; });
-    createKeyFigure('.stats-priority', 'Total Confirmed Cases', 'cases', totalCases);
-    createKeyFigure('.stats-priority', 'Total Confirmed Deaths', 'deaths', totalDeaths);
+    createKeyFigure('.stats-priority', 'Total Confirmed Cases', 'cases', numFormat(totalCases));
+    createKeyFigure('.stats-priority', 'Total Confirmed Deaths', 'deaths', numFormat(totalDeaths));
     createKeyFigure('.stats-priority', 'Total Locations', 'locations', cumulativeData.length);
   }
 
@@ -400,8 +397,8 @@ $( document ).ready(function() {
     var locations = updatedData.length;
 
     if (updatedData.length > 0) {
-      $('.key-figure').find('.cases').html(cases);
-      $('.key-figure').find('.deaths').html(deaths);
+      $('.key-figure').find('.cases').html(numFormat(cases));
+      $('.key-figure').find('.deaths').html(numFormat(deaths));
       $('.key-figure').find('.locations').html(locations);
     }
   }
