@@ -1213,6 +1213,7 @@ header {
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0px;
   color: #888;
+  line-height: 16px;
   padding: 10px 10px 15px;
   position: absolute;
   width: 100%; }
@@ -1252,9 +1253,8 @@ header {
 .num {
   color: #000;
   font-family: 'Gotham-Light', sans-serif;
-  font-size: 42px;
+  font-size: 40px;
   line-height: 46px;
-  min-height: 81px;
   padding: 10px 0; }
   .num span {
     font-size: 26px; }
@@ -1405,7 +1405,7 @@ header {
 
 @media only screen and (max-width: 1000px) {
   .num {
-    font-size: 42px; }
+    font-size: 28px; }
   #reset {
     right: 20px;
     top: 8px; }
@@ -1438,6 +1438,8 @@ header {
     padding-bottom: 0;
     position: relative;
     width: 100%; }
+  .num {
+    font-size: 34px; }
   .toggle {
     display: block; }
   .panel .panel-inner {
