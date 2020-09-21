@@ -105,8 +105,8 @@ function formatTimeseriesData(data) {
           val = e.values[0]['#affected+infected'];
         }
       });
-      if (val==0) val='NA';
-     if (val!=undefined) arr.push(val);
+      if (val==0 || val==undefined) val='NA';
+      arr.push(val);
     });
     timeseriesArray.push(arr);
   });
