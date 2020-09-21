@@ -22,8 +22,6 @@ $( document ).ready(function() {
       timeseriesData = data[1].timeseries;
       globalData = data[1].global[0];
 
-      console.log(data[1])
-
       //get list of priority countries
       cumulativeData.forEach(function(item, index) {
         countryCodeList.push(item['#country+code']);
