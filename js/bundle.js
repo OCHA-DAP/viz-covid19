@@ -301,13 +301,15 @@ $( document ).ready(function() {
   function getData() {
     Promise.all([
       d3.json(geomPath),
-      d3.json('https://raw.githubusercontent.com/OCHA-DAP/hdx-scraper-covid-viz/covid_series/out_covidseries.json')
+      d3.json('https://raw.githubusercontent.com/OCHA-DAP/hdx-scraper-covid-viz/master/out_covidseries.json')
     ]).then(function(data){
       //parse data
       geomData = topojson.feature(data[0], data[0].objects.geom);
       cumulativeData = data[1].cumulative;
       timeseriesData = data[1].timeseries;
       globalData = data[1].global[0];
+
+      //console.log(data[1])
 
       //get list of priority countries
       cumulativeData.forEach(function(item, index) {
