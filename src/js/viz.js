@@ -3,6 +3,7 @@ $( document ).ready(function() {
   var geomPath = 'data/worldmap.json';
   var geomData, geomFilteredData, globalData, cumulativeData, timeseriesData, allTimeseriesArray, date, totalCases, totalDeaths, descriptionText = '';
   var countryCodeList = [];
+  var countryNameList = [];
   var selectedCountries = [];
   var numFormat = d3.format(",");
 
@@ -22,15 +23,21 @@ $( document ).ready(function() {
       timeseriesData = data[1].timeseries;
       globalData = data[1].global[0];
 
-      //console.log(data[1])
-
       //get list of priority countries
       cumulativeData.forEach(function(item, index) {
         countryCodeList.push(item['#country+code']);
+        countryNameList.push(item['#country+name']);
       });
 
       //filter for priority countries
       geomFilteredData = geomData.features.filter((country) => countryCodeList.includes(country.properties.ISO_A3));
+      
+      timeseriesData = Object.keys(timeseriesData)
+        .filter(key => countryNameList.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = timeseriesData[key];
+          return obj;
+        }, {});
 
       //create page link
       var embed = { text: 'See COVID-19 Pandemic page', link: 'https://data.humdata.org/event/covid-19' };
